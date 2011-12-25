@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright 2011-2013, KC CLASS, Robert Dukaric, Matej Lazar and Ales Justin.
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <!-- Parent -->
@@ -9,12 +13,19 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>caliper-example</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>Caliper Example</name>
     <url>http://www.alterjoc.org/caliper</url>
     <description>Caliper Example</description>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
 </project>

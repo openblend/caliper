@@ -11,6 +11,32 @@ package com.alterjoc.caliper.server;
  */
 public class Main {
     public static void main(String[] args) {
-        // TODO
+        HttpServer server = HttpServerFactory.createHttpServer();
+        Runtime.getRuntime().addShutdownHook(new Thread(new ShutdownHook(server)));
+        try {
+            // start server
+            server.start();
+            // create apps
+            AppFactory appFactory = new AppFactory(server);
+            for (String app : args) {
+                appFactory.createApp(app);
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+
+    private static class ShutdownHook implements Runnable {
+        HttpServer server;
+
+        private ShutdownHook(HttpServer server) {
+            this.server = server;
+        }
+
+        public void run() {
+            HttpServer tmp = server;
+            server = null;
+            tmp.stop();
+        }
     }
 }

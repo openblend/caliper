@@ -14,9 +14,9 @@ import java.io.IOException;
 public interface HttpServer {
     void start() throws IOException;
 
-    void addContext(String name, HttpHandler handler);
+    void addContext(String mapping, HttpHandler handler);
 
-    void removeContext(String name);
+    void removeContext(String mapping);
 
     void stop();
 }

@@ -17,8 +17,7 @@ import java.util.concurrent.Executors;
 public class SunHttpServer implements HttpServer {
     private com.sun.net.httpserver.HttpServer server;
 
-    public void start() throws IOException
-    {
+    public void start() throws IOException {
         if (server != null)
             server.stop(0);
 
@@ -28,20 +27,17 @@ public class SunHttpServer implements HttpServer {
         server.start();
     }
 
-    public void addContext(String name, HttpHandler handler)
-    {
+    public void addContext(String mapping, HttpHandler handler) {
         if (server != null)
-            server.createContext(name, new SunHttpHandler(handler));
+            server.createContext(mapping, new SunHttpHandler(handler));
     }
 
-    public void removeContext(String name)
-    {
+    public void removeContext(String mapping) {
         if (server != null)
-            server.removeContext(name);
+            server.removeContext(mapping);
     }
 
-    public void stop()
-    {
+    public void stop() {
         com.sun.net.httpserver.HttpServer temp = server;
         server = null;
 

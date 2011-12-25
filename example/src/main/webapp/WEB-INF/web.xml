@@ -1,0 +1,14 @@
+<!--
+  ~ Copyright 2011-2013, KC CLASS, Robert Dukaric, Matej Lazar and Ales Justin.
+  -->
+
+<web>
+    <servlet>
+        <servlet-name>Test</servlet-name>
+        <servlet-class>com.alterjoc.caliper.test.TestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Test</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+</web>
