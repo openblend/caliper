@@ -42,7 +42,7 @@ public class WebXmlMetaData {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         for (String name : names())
-            builder.append(getMapping(name)).append(" --> ").append(getServlet(name));
+            builder.append(getMapping(name)).append(" --> ").append(getServlet(name)).append("\n");
         return builder.toString();
     }
 }
