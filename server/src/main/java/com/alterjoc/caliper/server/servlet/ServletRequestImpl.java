@@ -35,14 +35,6 @@ public class ServletRequestImpl implements ServletRequest {
         this.context = context;
     }
 
-    public Object getAttribute(String name) {
-        return null;
-    }
-
-    public Enumeration<String> getAttributeNames() {
-        return Collections.enumeration(Collections.<String>emptySet());
-    }
-
     public String getCharacterEncoding() {
         return "UTF-8";
     }
@@ -67,15 +59,15 @@ public class ServletRequestImpl implements ServletRequest {
     }
 
     public String getParameter(String name) {
-        return null;
+        return context.getParameter(name);
     }
 
     public Enumeration<String> getParameterNames() {
-        return Collections.enumeration(Collections.<String>emptySet());
+        return Collections.enumeration(context.getParameterNames());
     }
 
     public String[] getParameterValues(String name) {
-        return new String[0];
+        return new String[]{getParameter(name)};
     }
 
     public Map<String, String[]> getParameterMap() {
@@ -110,10 +102,20 @@ public class ServletRequestImpl implements ServletRequest {
         return null;
     }
 
+    public Object getAttribute(String name) {
+        return context.getAttribute(name);
+    }
+
+    public Enumeration<String> getAttributeNames() {
+        return Collections.enumeration(context.getAttributeNames());
+    }
+
     public void setAttribute(String name, Object o) {
+        context.setAttribute(name, o);
     }
 
     public void removeAttribute(String name) {
+        context.removeAttribute(name);
     }
 
     public Locale getLocale() {
