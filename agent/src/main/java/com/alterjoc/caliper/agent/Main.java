@@ -4,6 +4,8 @@
 
 package com.alterjoc.caliper.agent;
 
+import com.alterjoc.caliper.agent.transform.MonitorClassFileTransformer;
+
 import java.lang.instrument.Instrumentation;
 
 /**
@@ -13,6 +15,7 @@ import java.lang.instrument.Instrumentation;
  */
 public class Main {
     public static void premain(String[] args, Instrumentation inst) {
-        // TODO -- add ClassFileTransformer to inst
+        MonitorClassFileTransformer mcft = new MonitorClassFileTransformer();
+        inst.addTransformer(mcft);
     }
 }
