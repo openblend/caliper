@@ -4,21 +4,24 @@
 
 package com.alterjoc.caliper.agent.transform;
 
-import com.alterjoc.caliper.agent.annotations.Monitor;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtMethod;
-import javassist.LoaderClassPath;
-
 import java.io.ByteArrayInputStream;
-import java.lang.annotation.Annotation;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
+import java.lang.reflect.Modifier;
 import java.security.ProtectionDomain;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
+
+import com.alterjoc.caliper.agent.annotations.ArgsAdapter;
+import com.alterjoc.caliper.agent.annotations.Monitor;
+import com.alterjoc.caliper.agent.annotations.NoopArgsAdapter;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtMethod;
+import javassist.LoaderClassPath;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
@@ -51,19 +54,44 @@ public class MonitorClassFileTransformer implements ClassFileTransformer {
     }
 
     protected void modifyClass(CtClass clazz) throws Exception {
+        Set<CtMethod> methods = new HashSet<CtMethod>();
         if (clazz.hasAnnotation(Monitor.class)) {
-            // TODO
+            methods.addAll(Arrays.asList(clazz.getMethods()));
         } else {
-            // TODO
+            getAnnotatedMethods(methods, clazz);
+        }
+
+        for (CtMethod m : methods) {
+            if (Modifier.isStatic(m.getModifiers())) {
+                m.insertBefore(MonitorUtils.class.getName() + ".preMonitorStatic($class, " + quote(m.getName()) + ", $sig, $args, " + getAdapterClassName(m) + ");");
+                m.insertAfter(MonitorUtils.class.getName() + ".preMonitorStatic($class, " + quote(m.getName()) + ", $sig, $args, " + getAdapterClassName(m) + ");", true);
+            } else {
+                m.insertBefore(MonitorUtils.class.getName() + ".preMonitor($0, " + quote(m.getName()) + ", $sig, $args, " + getAdapterClassName(m) + ");");
+                m.insertAfter(MonitorUtils.class.getName() + ".preMonitor($0, " + quote(m.getName()) + ", $sig, $args, " + getAdapterClassName(m) + ");", true);
+            }
         }
     }
 
-    protected Iterable<CtMethod> getAnnotatedMethods(CtClass clazz, Class<? extends Annotation> annotationClass) {
-        Set<CtMethod> methods = new HashSet<CtMethod>();
+    protected void getAnnotatedMethods(Set<CtMethod> methods, CtClass clazz) throws Exception {
+        if (clazz == null)
+            return;
+
         for (CtMethod cm : clazz.getDeclaredMethods()) {
-            if (cm.hasAnnotation(annotationClass))
+            if (cm.hasAnnotation(Monitor.class))
                 methods.add(cm); // TODO -- dups from override, etc
         }
-        return methods;
+
+        getAnnotatedMethods(methods, clazz.getSuperclass());
+    }
+
+    private static String getAdapterClassName(CtMethod m) throws Exception {
+        Monitor monitor = (Monitor) m.getAnnotation(Monitor.class);
+        Class<? extends ArgsAdapter> adapterClass = monitor.adapter();
+        String returnString = (adapterClass.equals(NoopArgsAdapter.class)) ? "" : adapterClass.getName();
+        return quote(returnString);
+    }
+
+    private static String quote(String returnString) {
+        return "\"" + returnString + "\"";
     }
 }
