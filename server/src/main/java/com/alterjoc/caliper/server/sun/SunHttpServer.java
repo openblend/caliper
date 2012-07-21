@@ -4,12 +4,13 @@
 
 package com.alterjoc.caliper.server.sun;
 
-import com.alterjoc.caliper.server.HttpHandler;
-import com.alterjoc.caliper.server.HttpServer;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
+
+import com.alterjoc.caliper.agent.annotations.Monitor;
+import com.alterjoc.caliper.server.HttpHandler;
+import com.alterjoc.caliper.server.HttpServer;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
@@ -27,11 +28,13 @@ public class SunHttpServer implements HttpServer {
         server.start();
     }
 
+    @Monitor
     public void addContext(String mapping, HttpHandler handler) {
         if (server != null)
             server.createContext(mapping, new SunHttpHandler(handler));
     }
 
+    @Monitor
     public void removeContext(String mapping) {
         if (server != null)
             server.removeContext(mapping);

@@ -33,7 +33,7 @@ public class MonitorClassFileTransformer implements ClassFileTransformer {
     protected synchronized ClassPool getClassPool(ClassLoader cl) {
         ClassPool pool = pools.get(cl);
         if (pool == null) {
-            pool = new ClassPool(ClassPool.getDefault());
+            pool = new ClassPool();
             pool.appendClassPath(new LoaderClassPath(cl));
             pools.put(cl, pool);
         }

@@ -122,6 +122,12 @@
 
             <dependency>
                 <groupId>com.alterjoc.caliper</groupId>
+                <artifactId>caliper-noop</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alterjoc.caliper</groupId>
                 <artifactId>caliper-server</artifactId>
                 <version>${project.version}</version>
             </dependency>

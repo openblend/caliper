@@ -4,11 +4,6 @@
 
 package com.alterjoc.caliper.server;
 
-import com.alterjoc.caliper.server.servlet.ServletHandler;
-import com.alterjoc.caliper.server.xml.Parser;
-import com.alterjoc.caliper.server.xml.WebXmlMetaData;
-
-import javax.servlet.Servlet;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -16,6 +11,13 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.Servlet;
+
+import com.alterjoc.caliper.agent.annotations.Monitor;
+import com.alterjoc.caliper.server.servlet.ServletHandler;
+import com.alterjoc.caliper.server.xml.Parser;
+import com.alterjoc.caliper.server.xml.WebXmlMetaData;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
@@ -35,6 +37,7 @@ final class AppFactory {
     }
 
     @SuppressWarnings("deprecation")
+    @Monitor
     void createApp(String app) throws Exception {
         File war = new File(app);
         if (war.exists() == false)

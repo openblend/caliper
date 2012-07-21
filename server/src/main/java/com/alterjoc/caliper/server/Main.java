@@ -22,7 +22,7 @@ public class Main {
                 appFactory.createApp(app);
             }
         } catch (Exception e) {
-            System.err.println(e);
+            e.printStackTrace();
         }
     }
 

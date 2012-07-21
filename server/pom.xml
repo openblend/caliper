@@ -21,6 +21,16 @@
     <dependencies>
 
         <dependency>
+            <groupId>com.alterjoc.caliper</groupId>
+            <artifactId>caliper-agent</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alterjoc.caliper</groupId>
+            <artifactId>caliper-noop</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
             <artifactId>jboss-servlet-api_3.0_spec</artifactId>
             <scope>compile</scope>
