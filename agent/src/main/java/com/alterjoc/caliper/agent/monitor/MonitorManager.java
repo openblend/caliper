@@ -16,9 +16,9 @@ public interface MonitorManager {
 
     void postMonitor(Object target, String name, Class[] types, Object[] args);
 
-    void preHandle(Object handle, Object... args);
+    void preHandle(Object handleKey, Object... args);
 
-    void postHandle(Object handle, Object... args);
+    void postHandle(Object handleKey, Object... args);
 
     void registerHandle(Object handleKey, MonitorHandle handle);
 

@@ -12,20 +12,19 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>caliper-iaas</artifactId>
+    <artifactId>caliper-noop</artifactId>
     <packaging>jar</packaging>
     <version>1.0.0-SNAPSHOT</version>
-    <name>caliper-iaas</name>
+    <name>caliper-noop</name>
 
     <dependencies>
         <dependency>
-            <groupId>org.jclouds</groupId>
-            <artifactId>jclouds-allcompute</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.alterjoc.caliper</groupId>
             <artifactId>caliper-agent</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.kohsuke.metainf-services</groupId>
+            <artifactId>metainf-services</artifactId>
         </dependency>
     </dependencies>
 

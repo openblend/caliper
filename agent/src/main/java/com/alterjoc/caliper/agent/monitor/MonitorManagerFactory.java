@@ -4,11 +4,22 @@
 
 package com.alterjoc.caliper.agent.monitor;
 
+import java.util.ServiceLoader;
+
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
  */
 public final class MonitorManagerFactory {
+    private static volatile MonitorManager instance;
+
     public static MonitorManager getInstance() {
-        return null; // TODO
+        if (instance == null) {
+            synchronized (MonitorManagerFactory.class) {
+                if (instance == null) {
+                    instance = ServiceLoader.load(MonitorManager.class).iterator().next();
+                }
+            }
+        }
+        return instance;
     }
 }

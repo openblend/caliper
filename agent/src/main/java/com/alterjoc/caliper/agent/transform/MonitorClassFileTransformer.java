@@ -64,10 +64,10 @@ public class MonitorClassFileTransformer implements ClassFileTransformer {
         for (CtMethod m : methods) {
             if (Modifier.isStatic(m.getModifiers())) {
                 m.insertBefore(MonitorUtils.class.getName() + ".preMonitorStatic($class, " + quote(m.getName()) + ", $sig, $args, " + getAdapterClassName(m) + ");");
-                m.insertAfter(MonitorUtils.class.getName() + ".preMonitorStatic($class, " + quote(m.getName()) + ", $sig, $args, " + getAdapterClassName(m) + ");", true);
+                m.insertAfter(MonitorUtils.class.getName() + ".postMonitorStatic($class, " + quote(m.getName()) + ", $sig, $args, " + getAdapterClassName(m) + ");", true);
             } else {
                 m.insertBefore(MonitorUtils.class.getName() + ".preMonitor($0, " + quote(m.getName()) + ", $sig, $args, " + getAdapterClassName(m) + ");");
-                m.insertAfter(MonitorUtils.class.getName() + ".preMonitor($0, " + quote(m.getName()) + ", $sig, $args, " + getAdapterClassName(m) + ");", true);
+                m.insertAfter(MonitorUtils.class.getName() + ".postMonitor($0, " + quote(m.getName()) + ", $sig, $args, " + getAdapterClassName(m) + ");", true);
             }
         }
     }
