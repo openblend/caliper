@@ -1,8 +1,12 @@
 /*
- * Copyright 2011-2013, KC CLASS, Robert Dukaric, Matej Lazar and Ales Justin.
+ * Copyright 2011-2013, KC CLASS; Matej Lazar, Ales Justin.
  */
 
 package com.alterjoc.caliper.server.xml;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -11,10 +15,6 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>

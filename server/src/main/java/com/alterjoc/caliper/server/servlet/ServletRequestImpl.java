@@ -1,18 +1,9 @@
 /*
- * Copyright 2011-2013, KC CLASS, Robert Dukaric, Matej Lazar and Ales Justin.
+ * Copyright 2011-2013, KC CLASS; Matej Lazar, Ales Justin.
  */
 
 package com.alterjoc.caliper.server.servlet;
 
-import com.alterjoc.caliper.server.HttpContext;
-
-import javax.servlet.AsyncContext;
-import javax.servlet.DispatcherType;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,6 +12,16 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.servlet.AsyncContext;
+import javax.servlet.DispatcherType;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletInputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+import com.alterjoc.caliper.server.HttpContext;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2013, KC CLASS, Robert Dukaric, Matej Lazar and Ales Justin.
+ * Copyright 2011-2013, KC CLASS; Matej Lazar, Ales Justin.
  */
 
 package com.alterjoc.caliper.agent.annotations;

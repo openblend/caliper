@@ -1,11 +1,8 @@
 /*
- * Copyright 2011-2013, KC CLASS, Robert Dukaric, Matej Lazar and Ales Justin.
+ * Copyright 2011-2013, KC CLASS; Matej Lazar, Ales Justin.
  */
 
 package com.alterjoc.caliper.server.sun;
-
-import com.alterjoc.caliper.server.HttpContext;
-import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +13,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.concurrent.CopyOnWriteArraySet;
+
+import com.alterjoc.caliper.server.HttpContext;
+import com.sun.net.httpserver.HttpExchange;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>

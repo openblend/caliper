@@ -1,16 +1,17 @@
 /*
- * Copyright 2011-2013, KC CLASS, Robert Dukaric, Matej Lazar and Ales Justin.
+ * Copyright 2011-2013, KC CLASS; Matej Lazar, Ales Justin.
  */
 
 package com.alterjoc.caliper.server.servlet;
 
-import com.alterjoc.caliper.server.HttpContext;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.ServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Locale;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletResponse;
+
+import com.alterjoc.caliper.server.HttpContext;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
