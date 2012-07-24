@@ -9,9 +9,10 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.kohsuke.MetaInfServices;
+
 import com.alterjoc.caliper.agent.monitor.AbstractMonitorManager;
 import com.alterjoc.caliper.agent.monitor.MonitorManager;
-import org.kohsuke.MetaInfServices;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
@@ -26,6 +27,11 @@ public class SimpleMonitorManager extends AbstractMonitorManager {
     private static final Logger log = Logger.getLogger(SimpleMonitorManager.class.getName());
 
     private Set<String> apps = new HashSet<String>();
+    private Compute compute;
+
+    public SimpleMonitorManager() {
+        compute = new ComputeImpl(IaasProperties.getInstance());
+    }
 
     private static boolean isCreateApp(Class clazz, String name) {
         return APP_FACTORY.equals(clazz.getName()) && CREATE_APP.equals(name);
@@ -52,10 +58,12 @@ public class SimpleMonitorManager extends AbstractMonitorManager {
                 if (size == Counter.LIMIT_SIZE && (diff < 1000 * 60)) {
                     // less than 1min?
                     log.info("Scale up -- " + apps + " !!!");
+                    String instanceId = compute.scaleUp();
                     counter.reset();
                 } else if (diff > 1000 * 60 * 5) {
                     // more than 5min
                     log.info("Scale down -- " + apps + " !!!");
+                    compute.scaleDown();
                     counter.reset();
                 }
             }

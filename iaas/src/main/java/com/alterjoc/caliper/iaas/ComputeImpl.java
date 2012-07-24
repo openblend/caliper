@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.jclouds.compute.ComputeService;
 import org.jclouds.compute.ComputeServiceContext;
@@ -21,6 +22,8 @@ import com.google.inject.Module;
  * @author Matej Lazar
  */
 public class ComputeImpl implements Compute {
+
+    private static final Logger log = Logger.getLogger(SimpleMonitorManager.class.getName());
 
     private IaasProperties iaasProperties;
     private ComputeService service;
@@ -43,6 +46,11 @@ public class ComputeImpl implements Compute {
     }
 
     public String createInstance() throws RunNodesException {
+        if (iaasProperties == null) {
+            logSkipping();
+            return "";
+        }
+
         String keyPairName = iaasProperties.getKeyPairName();
 
         String imageId = iaasProperties.getImageId();
@@ -64,13 +72,20 @@ public class ComputeImpl implements Compute {
         return node.getId();
     }
 
-    public String scaleUp() throws RunNodesException {
-        return createInstance();
+    public String scaleUp() {
+        try {
+            return createInstance();
+        } catch (RunNodesException e) {
+            log.warning("Cannot create instance.");
+        }
+        return null;
     }
 
-    public void scaleDown() throws Exception {
+    public void scaleDown() {
         NodeMetadata instance = getLastInstance();
-        destroy(instance);
+        if (instance != null) {
+            destroy(instance);
+        }
     }
 
     public void terminate() {
@@ -80,16 +95,26 @@ public class ComputeImpl implements Compute {
     }
 
     private void destroy(NodeMetadata instance) {
+        if (iaasProperties == null) {
+            logSkipping();
+            return;
+        }
         service.destroyNode(instance.getId());
         runningInstances.remove(instance);
     }
 
-    private NodeMetadata getLastInstance() throws Exception {
+    private NodeMetadata getLastInstance() {
         int lastIndex = runningInstances.size() - 1;
-        if (lastIndex < 0) {
-            throw new Exception("No more instances.");
+        if (lastIndex > 0) {
+            return runningInstances.get(lastIndex );
+        } else {
+            return null;
         }
-        return runningInstances.get(lastIndex );
+
+    }
+
+    private void logSkipping() {
+        log.info("Skipping iaas operation because of incomplete properties.");
     }
 
 }

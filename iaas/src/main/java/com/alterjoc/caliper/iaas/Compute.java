@@ -4,17 +4,15 @@
 
 package com.alterjoc.caliper.iaas;
 
-import org.jclouds.compute.RunNodesException;
 
 /**
  * @author Matej Lazar
  */
 public interface Compute {
-    String createInstance() throws RunNodesException;
 
-    String scaleUp() throws RunNodesException;
+    String scaleUp();
 
-    void scaleDown() throws Exception;
+    void scaleDown();
 
     /**
      * Destroys all instances
