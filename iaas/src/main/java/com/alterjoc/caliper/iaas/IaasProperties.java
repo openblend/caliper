@@ -1,5 +1,10 @@
 package com.alterjoc.caliper.iaas;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.logging.Logger;
+
 /**
  * @author Matej Lazar
  */
@@ -9,29 +14,37 @@ public class IaasProperties {
     private String imageId;
     private String userName;
     private String password;
-    private String keyPairName = "caliperKey";
-    private String[] securityGroups = new String[]{"default"};
-    private String group = "caliper";
+    private String keyPairName;
+    private String[] securityGroups;
+    private String group;
 
-    public IaasProperties(String provider, String providerUrl, String imageId, String userName, String password) {
-        super();
-        this.provider = provider;
-        this.providerUrl = providerUrl;
-        this.imageId = imageId;
-        this.userName = userName;
-        this.password = password;
+    private static final Logger log = Logger.getLogger(IaasProperties.class.getName());
+
+    private IaasProperties() throws IOException {
+
+        Properties prop = new Properties();
+        InputStream in = null;
+        try {
+            in = getClass().getResourceAsStream("iaas.properties");
+            prop.load(in);
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
+        setProperties(prop);
     }
 
-    public IaasProperties(String provider, String providerUrl, String imageId, String userName, String password, String keyPairName, String[] securityGroups, String group) {
-        super();
-        this.provider = provider;
-        this.providerUrl = providerUrl;
-        this.imageId = imageId;
-        this.userName = userName;
-        this.password = password;
-        this.keyPairName = keyPairName;
-        this.securityGroups = securityGroups;
-        this.group = group;
+    private void setProperties(Properties prop) {
+        this.provider = prop.getProperty("provider");
+        this.providerUrl = prop.getProperty("provider-url");
+        this.imageId = prop.getProperty("image-id");
+        this.userName = prop.getProperty("username");
+        this.password = prop.getProperty("password");
+
+        this.keyPairName = prop.getProperty("key-pair-name");
+        this.securityGroups = prop.getProperty("security-groups").split(":");
+        this.group = prop.getProperty("group");
     }
 
     public String getProvider() {
@@ -64,5 +77,35 @@ public class IaasProperties {
 
     public String getGroup() {
         return group ;
+    }
+
+    public static IaasProperties getInstance() {
+        IaasProperties iaasProp;
+        try {
+            iaasProp = new IaasProperties();
+            if (iaasProp.isValid()) {
+                return iaasProp;
+            } else {
+                log.warning("Iaas properties are not complete.");
+            }
+        } catch (IOException e) {
+            log.warning("Cannot read iaas properties.");
+        }
+        return null;
+    }
+
+    private boolean isValid() {
+        if (provider == null || provider.equals("")) {
+            return false;
+        } else if (providerUrl == null || providerUrl.equals("")) {
+            return false;
+        } else if (imageId == null || imageId.equals("")) {
+            return false;
+        } else if (userName == null || userName.equals("")) {
+            return false;
+        } else if (password == null || password.equals("")) {
+            return false;
+        }
+        return true;
     }
 }
