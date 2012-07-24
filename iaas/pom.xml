@@ -27,6 +27,11 @@
             <groupId>com.alterjoc.caliper</groupId>
             <artifactId>caliper-agent</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.kohsuke.metainf-services</groupId>
+            <artifactId>metainf-services</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

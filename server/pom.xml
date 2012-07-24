@@ -27,7 +27,7 @@
 
         <dependency>
             <groupId>com.alterjoc.caliper</groupId>
-            <artifactId>caliper-noop</artifactId>
+            <artifactId>caliper-iaas</artifactId>
         </dependency>
 
         <dependency>
