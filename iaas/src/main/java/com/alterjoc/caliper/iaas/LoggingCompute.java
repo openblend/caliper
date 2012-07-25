@@ -24,12 +24,12 @@ class LoggingCompute implements Compute {
         return "<noop>";
     }
 
-    public String scaleUp() throws RunNodesException {
+    public String scaleUp() {
         log.info("Scale up -- " + apps + " !!!");
         return "<noop>";
     }
 
-    public void scaleDown() throws Exception {
+    public void scaleDown() {
         log.info("Scale down -- " + apps + " !!!");
     }
 

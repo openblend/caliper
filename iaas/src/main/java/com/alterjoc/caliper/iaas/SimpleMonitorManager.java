@@ -7,12 +7,10 @@ package com.alterjoc.caliper.iaas;
 import java.util.HashSet;
 import java.util.Queue;
 import java.util.Set;
-import java.util.logging.Logger;
-
-import org.kohsuke.MetaInfServices;
 
 import com.alterjoc.caliper.agent.monitor.AbstractMonitorManager;
 import com.alterjoc.caliper.agent.monitor.MonitorManager;
+import org.kohsuke.MetaInfServices;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
@@ -24,13 +22,12 @@ public class SimpleMonitorManager extends AbstractMonitorManager {
     private static final String CREATE_APP = "createApp";
     private static final String SERVLET_HANDLER = "com.alterjoc.caliper.server.servlet.ServletHandler";
 
-    private static final Logger log = Logger.getLogger(SimpleMonitorManager.class.getName());
-
-    private Set<String> apps = new HashSet<String>();
+    private Set<String> apps;
     private Compute compute;
 
     public SimpleMonitorManager() {
-        compute = new ComputeImpl(IaasProperties.getInstance());
+        apps = new HashSet<String>();
+        compute = new LoggingCompute(apps);
     }
 
     private static boolean isCreateApp(Class clazz, String name) {
@@ -54,15 +51,12 @@ public class SimpleMonitorManager extends AbstractMonitorManager {
             Long[] ts = fifo.toArray(new Long[size]);
             if (size > 1) {
                 long diff = ts[size - 1] - ts[0];
-                // TODO -- add compute logic
                 if (size == Counter.LIMIT_SIZE && (diff < 1000 * 60)) {
                     // less than 1min?
-                    log.info("Scale up -- " + apps + " !!!");
-                    String instanceId = compute.scaleUp();
+                    compute.scaleUp();
                     counter.reset();
                 } else if (diff > 1000 * 60 * 5) {
                     // more than 5min
-                    log.info("Scale down -- " + apps + " !!!");
                     compute.scaleDown();
                     counter.reset();
                 }
